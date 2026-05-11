@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Chromolog Technologies | AI-Powered Digital Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+<style>
+:root{
+  --b:#2563ff;
+  --v:#7c3aed;
+  --bg:#04060f;
+  --bg2:#080c1a;
+  --surf:rgba(255,255,255,0.04);
+  --surfl:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.08);
+  --txt:#e8eaf6;
+  --muted:#7b82a0;
+  --white:#ffffff;
+  --grad:linear-gradient(135deg,var(--b),var(--v));
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  overflow-x:hidden;
+  line-height:1.6;
+}
+body.loading{overflow:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button,input,textarea{font:inherit}
+
+/* ─── LOADER ─── */
+#loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:grid;place-items:center;
+  transition:opacity .6s ease,visibility .6s ease;
+}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+.loader-ring{
+  position:relative;width:80px;height:80px;
+  display:grid;place-items:center;
+}
+.loader-ring::before{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0%,var(--b) 40%,var(--v) 70%,transparent 100%);
+  animation:spin 1.4s linear infinite;
+}
+.loader-ring::after{
+  content:'';position:absolute;inset:6px;border-radius:50%;background:var(--bg);
+}
+.loader-logo{position:relative;z-index:1;width:40px;height:40px;object-fit:contain}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:0 clamp(20px,4vw,60px);
+  height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(4,6,15,0.7);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:background .3s;
+}
+.nav-logo img{height:36px;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:4px}
+.nav-links a{
+  padding:8px 14px;border-radius:8px;
+  font-size:14px;font-weight:500;color:var(--muted);
+  transition:color .2s,background .2s;
+}
+.nav-links a:hover{color:var(--white);background:var(--surfl)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;border-radius:10px;
+  background:var(--grad);color:#fff;
+  font-size:14px;font-weight:600;
+  transition:opacity .2s,transform .2s;
+}
+.nav-cta:hover{opacity:.9;transform:translateY(-1px)}
+.hamburger{
+  display:none;width:40px;height:40px;border:none;
+  background:var(--surf);border-radius:8px;
+  color:var(--txt);font-size:18px;cursor:pointer;
+  align-items:center;justify-content:center;
+  border:1px solid var(--border);
+}
+.drawer{
+  display:none;position:fixed;inset:68px 0 0;
+  background:var(--bg2);z-index:99;
+  flex-direction:column;gap:4px;padding:20px;
+  border-top:1px solid var(--border);
+}
+.drawer.open{display:flex}
+.drawer a{
+  padding:14px 16px;border-radius:10px;
+  color:var(--txt);font-size:15px;font-weight:500;
+  border:1px solid var(--border);
+  transition:background .2s;
+}
+.drawer a:hover{background:var(--surfl)}
+
+/* ─── UTILITY ─── */
+.container{width:min(1120px,calc(100vw - clamp(32px,5vw,120px)));margin:0 auto}
+.tag{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;border-radius:999px;
+  font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--b);background:rgba(37,99,255,.1);border:1px solid rgba(37,99,255,.2);
+}
+.tag::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--grad);flex-shrink:0;
+}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 28px;border-radius:12px;
+  font-size:15px;font-weight:600;
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+  border:none;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{
+  background:var(--grad);color:#fff;
+  box-shadow:0 12px 40px rgba(37,99,255,.3);
+}
+.btn-primary:hover{box-shadow:0 18px 50px rgba(37,99,255,.4)}
+.btn-ghost{
+  background:var(--surf);color:var(--txt);
+  border:1px solid var(--border);
+}
+.btn-ghost:hover{background:var(--surfl)}
+.section-space{padding:clamp(60px,8vw,120px) 0}
+
+/* ─── REVEAL ─── */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal-l.in{opacity:1;transform:none}
+.reveal-r{opacity:0;transform:translateX(36px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal-r.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}.d6{transition-delay:.6s}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;
+  padding-top:68px;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;pointer-events:none;
+}
+.orb{
+  position:absolute;border-radius:50%;filter:blur(80px);
+  animation:orbFloat ease-in-out infinite alternate;
+}
+.orb1{width:600px;height:600px;background:rgba(37,99,255,.18);top:-10%;left:-15%;animation-duration:8s}
+.orb2{width:500px;height:500px;background:rgba(124,58,237,.16);bottom:-5%;right:-10%;animation-duration:11s;animation-delay:-4s}
+.orb3{width:300px;height:300px;background:rgba(37,99,255,.12);top:40%;left:40%;animation-duration:13s;animation-delay:-7s}
+@keyframes orbFloat{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(30px,-40px) scale(1.08)}
+}
+.hero-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:center;
+  position:relative;z-index:1;width:100%;
+}
+.hero-eyebrow{margin-bottom:24px}
+.hero h1{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(42px,5.5vw,76px);
+  font-weight:800;line-height:1.0;
+  letter-spacing:-.03em;
+  color:var(--white);
+  margin-bottom:24px;
+}
+.hero h1 .grad-txt{
+  background:var(--grad);
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero-sub{
+  font-size:17px;color:var(--muted);
+  line-height:1.7;margin-bottom:36px;
+  max-width:44ch;
+}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.hero-trust{
+  display:flex;align-items:center;gap:12px;
+  font-size:13px;color:var(--muted);font-weight:500;
+}
+.hero-trust span{display:flex;align-items:center;gap:6px}
+.hero-trust i{color:var(--b);font-size:14px}
+.hero-trust-sep{opacity:.3}
+
+/* ─── HERO VISUAL ─── */
+.hero-visual{position:relative}
+.hero-card{
+  position:relative;
+  background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:28px;
+  backdrop-filter:blur(20px);
+  animation:heroFloat 6s ease-in-out infinite;
+}
+@keyframes heroFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-14px)}
+}
+.hero-card-top{
+  display:flex;align-items:center;gap:14px;margin-bottom:24px;
+}
+.hero-logo-badge{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(255,255,255,.08);
+  display:grid;place-items:center;
+  border:1px solid var(--border);
+}
+.hero-logo-badge img{width:34px;height:34px;object-fit:contain}
+.hero-card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--white)}
+.hero-card-sub{font-size:13px;color:var(--muted)}
+.hero-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.metric{
+  padding:16px;border-radius:14px;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  text-align:center;
+  transition:background .3s,transform .3s;
+}
+.metric:hover{background:rgba(255,255,255,.08);transform:scale(1.03)}
+.metric-val{
+  font-family:'Syne',sans-serif;font-weight:800;
+  font-size:28px;color:var(--white);
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.metric-lbl{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.hero-bar{
+  padding:14px 16px;border-radius:12px;
+  background:rgba(37,99,255,.08);
+  border:1px solid rgba(37,99,255,.2);
+  display:flex;align-items:center;gap:12px;
+  font-size:13px;font-weight:600;color:var(--txt);
+  margin-bottom:10px;
+}
+.hero-bar i{color:var(--b);font-size:16px;flex-shrink:0}
+.hero-bar-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:#22c55e;margin-left:auto;flex-shrink:0;
+  box-shadow:0 0 8px #22c55e;
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot{
+  0%,100%{box-shadow:0 0 8px #22c55e}
+  50%{box-shadow:0 0 16px #22c55e}
+}
+
+/* floating badges */
+.hero-badge{
+  position:absolute;
+  background:rgba(8,12,26,.9);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:10px 14px;
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;font-weight:600;color:var(--txt);
+  backdrop-filter:blur(12px);
+  white-space:nowrap;
+}
+.hero-badge i{color:var(--b);font-size:16px}
+.badge-tl{top:-18px;left:20px;animation:badgeA 5s ease-in-out infinite}
+.badge-br{bottom:-18px;right:20px;animation:badgeA 7s ease-in-out infinite alternate-reverse}
+@keyframes badgeA{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-8px)}
+}
+
+/* ─── MARQUEE ─── */
+.marquee-wrap{
+  overflow:hidden;padding:20px 0;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+}
+.marquee-track{
+  display:flex;width:max-content;gap:10px;
+  animation:marquee 28s linear infinite;
+}
+.marquee-track span{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 18px;border-radius:999px;
+  background:var(--surf);border:1px solid var(--border);
+  font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap;
+}
+.marquee-track span::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--grad);flex-shrink:0;
+}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── ABOUT ─── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-visual{position:relative}
+.about-img-frame{
+  border-radius:24px;overflow:hidden;
+  background:linear-gradient(145deg,rgba(37,99,255,.12),rgba(124,58,237,.08));
+  border:1px solid var(--border);
+  padding:40px;aspect-ratio:1;
+  display:grid;place-items:center;
+  position:relative;
+}
+.about-logo{width:160px;height:160px;object-fit:contain;position:relative;z-index:1}
+.about-ring{
+  position:absolute;border-radius:50%;border:1px solid rgba(37,99,255,.2);
+  animation:slowSpin linear infinite;
+}
+.ring1{width:280px;height:280px;animation-duration:20s}
+.ring2{width:360px;height:360px;animation-duration:30s;animation-direction:reverse;border-color:rgba(124,58,237,.15)}
+.ring-dot{
+  position:absolute;top:0;left:50%;transform:translateX(-50%) translateY(-50%);
+  width:10px;height:10px;border-radius:50%;background:var(--grad);
+  box-shadow:0 0 14px rgba(37,99,255,.6);
+}
+@keyframes slowSpin{to{transform:rotate(360deg)}}
+.stat-cards{position:absolute;right:-24px;display:grid;gap:10px}
+.stat-card{
+  padding:14px 18px;border-radius:14px;
+  background:rgba(8,12,26,.92);
+  border:1px solid var(--border);
+  backdrop-filter:blur(12px);min-width:140px;
+}
+.stat-card strong{
+  display:block;font-family:'Syne',sans-serif;font-weight:800;
+  font-size:26px;color:var(--white);
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-card small{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.about-copy h2{
+  font-family:'Syne',sans-serif;font-size:clamp(32px,3.5vw,48px);
+  font-weight:800;letter-spacing:-.03em;color:var(--white);
+  line-height:1.1;margin-bottom:20px;
+}
+.about-copy p{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:16px}
+.about-steps{display:grid;gap:16px;margin-top:32px}
+.a-step{
+  display:flex;gap:16px;
+  padding:18px 20px;border-radius:14px;
+  background:var(--surf);border:1px solid var(--border);
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.a-step:hover{background:var(--surfl);border-color:rgba(37,99,255,.25);transform:translateX(6px)}
+.a-step-icon{
+  width:42px;height:42px;flex-shrink:0;border-radius:12px;
+  background:rgba(37,99,255,.12);border:1px solid rgba(37,99,255,.2);
+  display:grid;place-items:center;color:var(--b);font-size:18px;
+}
+.a-step h4{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--white);margin-bottom:4px}
+.a-step p{font-size:14px;color:var(--muted);margin:0}
+
+/* ─── PRODUCT ─── */
+.product-section{
+  background:linear-gradient(135deg,rgba(37,99,255,.06),rgba(124,58,237,.06));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.product-head{text-align:center;max-width:640px;margin:0 auto 60px}
+.product-head h2{
+  font-family:'Syne',sans-serif;font-size:clamp(34px,4vw,56px);
+  font-weight:800;letter-spacing:-.03em;color:var(--white);
+  line-height:1.1;margin:16px 0;
+}
+.product-head p{font-size:17px;color:var(--muted);line-height:1.7}
+.product-showcase{
+  max-width:800px;margin:0 auto 60px;
+  padding:28px;border-radius:24px;
+  background:var(--surf);border:1px solid var(--border);
+  display:flex;align-items:center;gap:24px;
+}
+.product-logo{
+  width:72px;height:72px;border-radius:18px;flex-shrink:0;
+  background:rgba(255,255,255,.06);border:1px solid var(--border);
+  display:grid;place-items:center;
+}
+.product-logo img{width:50px;height:50px;object-fit:contain}
+.product-info{flex:1}
+.product-info h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:var(--white);margin-bottom:4px}
+.product-info p{font-size:14px;color:var(--muted)}
+.feature-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;
+}
+.feat{
+  padding:24px;border-radius:16px;
+  background:var(--surf);border:1px solid var(--border);
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.feat:hover{background:var(--surfl);border-color:rgba(37,99,255,.25);transform:translateY(-4px)}
+.feat-icon{
+  width:46px;height:46px;border-radius:12px;
+  background:rgba(37,99,255,.12);border:1px solid rgba(37,99,255,.2);
+  display:grid;place-items:center;color:var(--b);font-size:20px;
+  margin-bottom:16px;
+}
+.feat h4{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--white);margin-bottom:8px}
+.feat p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* ─── SERVICES ─── */
+.services-head{margin-bottom:56px}
+.services-head h2{
+  font-family:'Syne',sans-serif;font-size:clamp(32px,3.5vw,52px);
+  font-weight:800;letter-spacing:-.03em;color:var(--white);
+  line-height:1.1;margin:16px 0 12px;
+}
+.services-head p{font-size:17px;color:var(--muted)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.svc{
+  padding:28px;border-radius:20px;
+  background:var(--surf);border:1px solid var(--border);
+  transition:background .3s,border-color .3s,transform .3s,box-shadow .3s;
+  position:relative;overflow:hidden;
+}
+.svc::before{
+  content:'';position:absolute;inset:0;
+  background:var(--grad);opacity:0;
+  transition:opacity .3s;
+}
+.svc:hover{
+  transform:translateY(-6px);
+  border-color:rgba(37,99,255,.3);
+  box-shadow:0 24px 60px rgba(37,99,255,.12);
+}
+.svc:hover::before{opacity:.04}
+.svc > *{position:relative;z-index:1}
+.svc-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(37,99,255,.1);border:1px solid rgba(37,99,255,.2);
+  display:grid;place-items:center;color:var(--b);font-size:22px;
+  margin-bottom:20px;
+  transition:background .3s,transform .3s;
+}
+.svc:hover .svc-icon{background:rgba(37,99,255,.18);transform:scale(1.1)}
+.svc h3{font-family:'Syne',sans-serif;font-weight:700;font-size:19px;color:var(--white);margin-bottom:10px}
+.svc p{font-size:14px;color:var(--muted);line-height:1.7}
+.svc-arrow{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:18px;font-size:13px;font-weight:600;
+  color:var(--b);
+  transition:gap .2s;
+}
+.svc:hover .svc-arrow{gap:10px}
+
+/* ─── CLIENTS ─── */
+.clients-section{
+  background:linear-gradient(180deg,transparent,rgba(37,99,255,.04),transparent);
+}
+.clients-head{text-align:center;max-width:620px;margin:0 auto 56px}
+.clients-head h2{
+  font-family:'Syne',sans-serif;font-size:clamp(30px,3.5vw,48px);
+  font-weight:800;letter-spacing:-.03em;color:var(--white);
+  line-height:1.1;margin:16px 0 12px;
+}
+.clients-head p{font-size:16px;color:var(--muted)}
+.clients-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.client-card{
+  padding:28px 24px;border-radius:18px;
+  background:var(--surf);border:1px solid var(--border);
+  text-align:center;
+  transition:background .3s,border-color .3s,transform .3s;
+}
+.client-card:hover{background:var(--surfl);border-color:rgba(37,99,255,.25);transform:translateY(-4px)}
+.client-no{
+  width:48px;height:48px;border-radius:14px;
+  background:var(--grad);
+  display:grid;place-items:center;margin:0 auto 18px;
+  font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;
+}
+.client-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--white);margin-bottom:8px}
+.client-card p{font-size:14px;color:var(--muted)}
+
+/* ─── WHY US ─── */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:48px}
+.why-item{
+  padding:24px;border-radius:16px;
+  background:var(--surf);border:1px solid var(--border);
+  transition:background .3s,border-color .3s;
+}
+.why-item:hover{background:var(--surfl);border-color:rgba(37,99,255,.25)}
+.why-num{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:42px;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;margin-bottom:12px;
+}
+.why-item h4{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--white);margin-bottom:8px}
+.why-item p{font-size:13px;color:var(--muted);line-height:1.6}
+
+/* ─── CTA BAND ─── */
+.cta-band{
+  padding:clamp(60px,8vw,100px) 0;
+  background:linear-gradient(135deg,rgba(37,99,255,.1),rgba(124,58,237,.1));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 50%,rgba(37,99,255,.15),transparent 70%);
+}
+.cta-band > *{position:relative;z-index:1}
+.cta-band h2{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(34px,5vw,66px);
+  font-weight:800;letter-spacing:-.04em;color:var(--white);
+  line-height:1.05;margin-bottom:20px;
+}
+.cta-band h2 .grad-txt{
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.cta-band p{font-size:18px;color:var(--muted);margin-bottom:40px;max-width:52ch;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ─── CONTACT ─── */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.contact-info h2{
+  font-family:'Syne',sans-serif;font-size:clamp(30px,3vw,44px);
+  font-weight:800;letter-spacing:-.03em;color:var(--white);
+  margin:16px 0 16px;line-height:1.1;
+}
+.contact-info p{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:36px}
+.contact-list{display:grid;gap:14px}
+.c-item{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:18px;border-radius:14px;
+  background:var(--surf);border:1px solid var(--border);
+  transition:background .3s,border-color .3s;
+}
+.c-item:hover{background:var(--surfl);border-color:rgba(37,99,255,.2)}
+.c-item-icon{
+  width:40px;height:40px;flex-shrink:0;border-radius:10px;
+  background:rgba(37,99,255,.1);border:1px solid rgba(37,99,255,.2);
+  display:grid;place-items:center;color:var(--b);font-size:16px;
+}
+.c-item-body strong{display:block;font-weight:700;font-size:14px;color:var(--white);margin-bottom:3px}
+.c-item-body span,.c-item-body a{font-size:14px;color:var(--muted)}
+.c-item-body a:hover{color:var(--b)}
+
+/* form */
+.contact-form{
+  padding:36px;border-radius:24px;
+  background:var(--surf);border:1px solid var(--border);
+}
+.form-title{font-family:'Syne',sans-serif;font-weight:700;font-size:22px;color:var(--white);margin-bottom:6px}
+.form-sub{font-size:14px;color:var(--muted);margin-bottom:28px}
+.fields{display:grid;gap:16px}
+.field label{display:block;font-size:13px;font-weight:600;color:var(--txt);margin-bottom:8px}
+.field input,.field textarea{
+  width:100%;padding:13px 16px;
+  border-radius:10px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);color:var(--txt);
+  outline:none;transition:border-color .2s,background .2s;
+}
+.field input:focus,.field textarea:focus{
+  border-color:rgba(37,99,255,.5);background:rgba(37,99,255,.04);
+}
+.field textarea{min-height:130px;resize:vertical}
+.form-btn{margin-top:22px;width:100%}
+#formStatus{
+  display:block;margin-top:14px;font-size:14px;
+  color:#22c55e;text-align:center;min-height:20px;
+}
+
+/* ─── FOOTER ─── */
+footer{
+  padding:40px 0;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.01);
+}
+.footer-inner{
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  flex-wrap:wrap;
+}
+.footer-logo img{height:32px;object-fit:contain}
+.footer-note{font-size:13px;color:var(--muted);margin-top:8px}
+.footer-nav{display:flex;gap:4px;flex-wrap:wrap}
+.footer-nav a{
+  padding:7px 12px;border-radius:8px;
+  font-size:14px;color:var(--muted);font-weight:500;
+  transition:color .2s,background .2s;
+}
+.footer-nav a:hover{color:var(--white);background:var(--surf)}
+
+/* ─── SCROLL PROGRESS ─── */
+#progress{
+  position:fixed;top:68px;left:0;right:0;height:2px;z-index:101;
+  background:var(--grad);transform-origin:left;transform:scaleX(0);
+  transition:transform .1s linear;
+}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .hero-grid,.about-grid,.contact-grid{grid-template-columns:1fr;gap:40px}
+  .hero-visual{display:none}
+  .nav-links{display:none}
+  .hamburger{display:inline-flex}
+  .nav-cta{display:none}
+  .stat-cards{display:none}
+  .about-img-frame{max-width:320px;margin:0 auto}
+}
+@media(max-width:600px){
+  .hero h1{font-size:clamp(36px,10vw,54px)}
+  .hero-btns{flex-direction:column}
+  .hero-btns .btn{width:100%;justify-content:center}
+  .cta-btns{flex-direction:column;align-items:center}
+  .cta-btns .btn{width:100%;max-width:320px;justify-content:center}
+  .contact-form{padding:22px}
+  footer .footer-inner{flex-direction:column;align-items:flex-start}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body class="loading">
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-ring">
+    <img class="loader-logo" src="images/logoChro-mark.jpeg" alt=""/>
+  </div>
+</div>
+
+<!-- SCROLL PROGRESS -->
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav id="topbar">
+  <a class="nav-logo" href="#home">
+    <img src="images/logoChro-display.jpeg" alt="Chromolog Technologies"/>
+  </a>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#product">Product</a>
+    <a href="#services">Services</a>
+    <a href="#clients">Clients</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a class="nav-cta" href="#contact"><i class="ri-rocket-line"></i>Request Demo</a>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><i class="ri-menu-line"></i></button>
+  </div>
+</nav>
+
+<div class="drawer" id="drawer">
+  <a href="#about">About</a>
+  <a href="#product">Product</a>
+  <a href="#services">Services</a>
+  <a href="#clients">Clients</a>
+  <a href="#contact">Contact</a>
+  <a href="#contact" style="background:rgba(37,99,255,.15);border-color:rgba(37,99,255,.3);color:var(--b)">Request Demo</a>
+</div>
+
+<main>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero section-space" id="home">
+  <div class="hero-bg">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <div class="container">
+    <div class="hero-grid">
+
+      <div class="hero-copy">
+        <div class="tag hero-eyebrow reveal">AI-Powered Product & Service Company</div>
+        <h1 class="reveal d1">
+          Smart Digital Solutions <span class="grad-txt">That Move With You</span>
+        </h1>
+        <p class="hero-sub reveal d2">Premium web, mobile, AI, and business platforms built for institutions, startups, and enterprises ready to scale.</p>
+        <div class="hero-btns reveal d3">
+          <a class="btn btn-primary" href="#contact"><i class="ri-rocket-line"></i>Request Demo</a>
+          <a class="btn btn-ghost" href="#product"><i class="ri-layout-grid-line"></i>View Product</a>
+        </div>
+        <div class="hero-trust reveal d4">
+          <span><i class="ri-shield-check-line"></i>Secure</span>
+          <span class="hero-trust-sep">|</span>
+          <span><i class="ri-stack-line"></i>Scalable</span>
+          <span class="hero-trust-sep">|</span>
+          <span><i class="ri-time-line"></i>Reliable</span>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal-r d2">
+        <div class="hero-badge badge-tl">
+          <i class="ri-cpu-line"></i>AI-Powered Platform
+        </div>
+        <div class="hero-card">
+          <div class="hero-card-top">
+            <div class="hero-logo-badge">
+              <img src="images/logoChro-mark.jpeg" alt="Chromolog"/>
+            </div>
+            <div>
+              <div class="hero-card-title">Alphagrew</div>
+              <div class="hero-card-sub">Flagship placement platform</div>
+            </div>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric"><div class="metric-val">AI</div><div class="metric-lbl">Powered</div></div>
+            <div class="metric"><div class="metric-val">Web</div><div class="metric-lbl">+ Mobile</div></div>
+            <div class="metric"><div class="metric-val">24/7</div><div class="metric-lbl">Support</div></div>
+          </div>
+          <div class="hero-bar"><i class="ri-bar-chart-grouped-line"></i>Placement Automation Active<div class="hero-bar-dot"></div></div>
+          <div class="hero-bar" style="margin-bottom:0"><i class="ri-brain-line"></i>AI Resume Analyzer Online<div class="hero-bar-dot"></div></div>
+        </div>
+        <div class="hero-badge badge-br">
+          <i class="ri-graduation-cap-line"></i>Campus-ready Platform
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>CRM Development</span><span>LMS Platforms</span><span>HRM Systems</span>
+    <span>Placement Software</span><span>Mobile Apps</span><span>AI Workflows</span>
+    <span>Web Applications</span><span>Custom Software</span><span>Dashboards</span>
+    <span>Enterprise Systems</span>
+    <span>CRM Development</span><span>LMS Platforms</span><span>HRM Systems</span>
+    <span>Placement Software</span><span>Mobile Apps</span><span>AI Workflows</span>
+    <span>Web Applications</span><span>Custom Software</span><span>Dashboards</span>
+    <span>Enterprise Systems</span>
+  </div>
+</div>
+
+<!-- ═══════════════ ABOUT ═══════════════ -->
+<section class="section-space" id="about">
+  <div class="container">
+    <div class="about-grid">
+
+      <div class="about-visual reveal-l">
+        <div class="about-img-frame">
+          <div class="about-ring ring1"><div class="ring-dot"></div></div>
+          <div class="about-ring ring2"></div>
+          <img class="about-logo" src="images/logoChro.jpeg" alt="Chromolog Technologies"/>
+        </div>
+        <div class="stat-cards">
+          <div class="stat-card reveal d2"><strong>AI</strong><small>Product-first builds</small></div>
+          <div class="stat-card reveal d3"><strong>Full</strong><small>Web, mobile, systems</small></div>
+          <div class="stat-card reveal d4"><strong>One</strong><small>Partner, idea to launch</small></div>
+        </div>
+      </div>
+
+      <div class="about-copy reveal-r">
+        <div class="tag" style="margin-bottom:20px">Who We Are</div>
+        <h2>Technology built for clarity, speed, and scale.</h2>
+        <p>Chromolog creates intelligent digital systems for institutions, startups, and enterprises. We design and deliver AI-powered products that bring real value to real workflows.</p>
+        <div class="about-steps">
+          <div class="a-step reveal d1">
+            <div class="a-step-icon"><i class="ri-cpu-line"></i></div>
+            <div><h4>Intelligent Systems</h4><p>AI-powered features integrated into practical workflows.</p></div>
+          </div>
+          <div class="a-step reveal d2">
+            <div class="a-step-icon"><i class="ri-stack-line"></i></div>
+            <div><h4>Scalable Architecture</h4><p>Platforms built to grow with your institution and team.</p></div>
+          </div>
+          <div class="a-step reveal d3">
+            <div class="a-step-icon"><i class="ri-user-heart-line"></i></div>
+            <div><h4>User-Friendly Experiences</h4><p>Clean interfaces teams adopt with confidence.</p></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ PRODUCT ═══════════════ -->
+<section class="section-space product-section" id="product">
+  <div class="container">
+    <div class="product-head reveal">
+      <div class="tag" style="margin-bottom:16px">Our Flagship Product</div>
+      <h2>Alphagrew</h2>
+      <p>Helping colleges manage placements, training, interviews, and student readiness with AI-powered intelligence.</p>
+    </div>
+    <div class="product-showcase reveal d1">
+      <div class="product-logo"><img src="images/logoChro-mark.jpeg" alt="Alphagrew"/></div>
+      <div class="product-info">
+        <h3>Alphagrew</h3>
+        <p>AI-powered placement and training software for educational institutions</p>
+      </div>
+      <a class="btn btn-primary" href="#contact"><i class="ri-rocket-line"></i>Request Demo</a>
+    </div>
+    <div class="feature-grid">
+      <div class="feat reveal d1"><div class="feat-icon"><i class="ri-filter-3-line"></i></div><h4>Smart Eligibility & Auto Filtering</h4><p>Identify eligible students faster with intelligent filters.</p></div>
+      <div class="feat reveal d2"><div class="feat-icon"><i class="ri-briefcase-4-line"></i></div><h4>Job & Application Management</h4><p>Publish jobs and track applications end-to-end.</p></div>
+      <div class="feat reveal d3"><div class="feat-icon"><i class="ri-file-search-line"></i></div><h4>AI Resume Analyzer</h4><p>Assess resumes and suggest profile improvements automatically.</p></div>
+      <div class="feat reveal d1"><div class="feat-icon"><i class="ri-chat-check-line"></i></div><h4>Mock Interviews & Practice</h4><p>AI-driven mock sessions that build real confidence.</p></div>
+      <div class="feat reveal d2"><div class="feat-icon"><i class="ri-bar-chart-grouped-line"></i></div><h4>Performance Analytics</h4><p>See readiness scores and performance trends clearly.</p></div>
+      <div class="feat reveal d3"><div class="feat-icon"><i class="ri-speed-up-line"></i></div><h4>Interview Readiness Score</h4><p>Quantify and track student placement readiness over time.</p></div>
+      <div class="feat reveal d1"><div class="feat-icon"><i class="ri-notification-3-line"></i></div><h4>Push Notifications</h4><p>Timely job and interview alerts delivered instantly.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ SERVICES ═══════════════ -->
+<section class="section-space" id="services">
+  <div class="container">
+    <div class="services-head reveal">
+      <div class="tag">Our Services</div>
+      <h2>Tailored digital solutions for every business need.</h2>
+      <p>Focused builds for real teams, real workflows, and real growth.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc reveal d1">
+        <div class="svc-icon"><i class="ri-customer-service-2-line"></i></div>
+        <h3>CRM Development</h3>
+        <p>Custom CRM systems that simplify operations, track leads, and power your sales pipeline with clarity.</p>
+        <div class="svc-arrow">Learn more <i class="ri-arrow-right-line"></i></div>
+      </div>
+      <div class="svc reveal d2">
+        <div class="svc-icon"><i class="ri-book-open-line"></i></div>
+        <h3>LMS Development</h3>
+        <p>Scalable Learning Management Systems built for training teams and educational institutions of any size.</p>
+        <div class="svc-arrow">Learn more <i class="ri-arrow-right-line"></i></div>
+      </div>
+      <div class="svc reveal d3">
+        <div class="svc-icon"><i class="ri-team-line"></i></div>
+        <h3>HRM Systems</h3>
+        <p>End-to-end HR platforms covering payroll, attendance, onboarding, and workforce management.</p>
+        <div class="svc-arrow">Learn more <i class="ri-arrow-right-line"></i></div>
+      </div>
+      <div class="svc reveal d1">
+        <div class="svc-icon"><i class="ri-window-line"></i></div>
+        <h3>Web Application Development</h3>
+        <p>Modern, fast, and secure web apps crafted to match your exact business logic and user needs.</p>
+        <div class="svc-arrow">Learn more <i class="ri-arrow-right-line"></i></div>
+      </div>
+      <div class="svc reveal d2">
+        <div class="svc-icon"><i class="ri-smartphone-line"></i></div>
+        <h3>Mobile App Development</h3>
+        <p>High-performance iOS and Android apps with polished UX that users actually love to use.</p>
+        <div class="svc-arrow">Learn more <i class="ri-arrow-right-line"></i></div>
+      </div>
+      <div class="svc reveal d3">
+        <div class="svc-icon"><i class="ri-code-box-line"></i></div>
+        <h3>Custom Software Development</h3>
+        <p>Software precisely shaped around your operational workflow — from idea to production deployment.</p>
+        <div class="svc-arrow">Learn more <i class="ri-arrow-right-line"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CLIENTS ═══════════════ -->
+<section class="section-space clients-section" id="clients">
+  <div class="container">
+    <div class="clients-head reveal">
+      <div class="tag">Who We Serve</div>
+      <h2>Built for institutions, teams & businesses.</h2>
+      <p>Digital systems designed around the real needs of growing organizations.</p>
+    </div>
+    <div class="clients-grid">
+      <div class="client-card reveal d1"><div class="client-no">1</div><h3>Colleges & Universities</h3><p>Placement portals, LMS, and student performance platforms.</p></div>
+      <div class="client-card reveal d2"><div class="client-no">2</div><h3>Training Institutes</h3><p>Learning systems, batch management, and analytics.</p></div>
+      <div class="client-card reveal d3"><div class="client-no">3</div><h3>Startups</h3><p>Fast MVP builds with clean architecture and scalable foundations.</p></div>
+      <div class="client-card reveal d4"><div class="client-no">4</div><h3>Enterprises</h3><p>Deep workflow automation and cross-department system integration.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="section-space" id="why-us">
+  <div class="container">
+    <div class="services-head reveal">
+      <div class="tag">Why Chromolog</div>
+      <h2>A partner for outcomes, not just outputs.</h2>
+      <p>We focus on practical value, long-term scalability, and technology that actually works.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-item reveal d1"><div class="why-num">01</div><h4>Product + Service Approach</h4><p>Scalable products, not one-off builds that age poorly.</p></div>
+      <div class="why-item reveal d2"><div class="why-num">02</div><h4>AI-Powered Solutions</h4><p>Smarter automation, insights, and workflow intelligence.</p></div>
+      <div class="why-item reveal d3"><div class="why-num">03</div><h4>Scalable Architecture</h4><p>Systems designed to grow with your organization.</p></div>
+      <div class="why-item reveal d4"><div class="why-num">04</div><h4>Client-Centric Dev</h4><p>Every decision is made around your real workflow.</p></div>
+      <div class="why-item reveal d5"><div class="why-num">05</div><h4>End-to-End Support</h4><p>From idea and design, all the way through to launch.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <div class="container">
+    <div class="reveal">
+      <h2>Ready to build something <span class="grad-txt">remarkable?</span></h2>
+      <p>Start with a free demo of Alphagrew or tell us about your custom platform idea.</p>
+      <div class="cta-btns">
+        <a class="btn btn-primary" href="#contact"><i class="ri-rocket-line"></i>Book a Free Demo</a>
+        <a class="btn btn-ghost" href="#services"><i class="ri-grid-line"></i>Explore Services</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTACT ═══════════════ -->
+<section class="section-space" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+
+      <div class="contact-info reveal-l">
+        <div class="tag" style="margin-bottom:16px">Get In Touch</div>
+        <h2>Let's build your next digital platform.</h2>
+        <p>Whether you're looking for a demo of Alphagrew or want to discuss a custom build, we're here to help you move forward.</p>
+        <div class="contact-list">
+          <div class="c-item">
+            <div class="c-item-icon"><i class="ri-mail-line"></i></div>
+            <div class="c-item-body"><strong>Email</strong><a href="mailto:info@chromolog.com">info@chromolog.com</a></div>
+          </div>
+          <div class="c-item">
+            <div class="c-item-icon"><i class="ri-phone-line"></i></div>
+            <div class="c-item-body"><strong>Phone</strong><a href="tel:+919400230723">+91 9400230723</a></div>
+          </div>
+          <div class="c-item">
+            <div class="c-item-icon"><i class="ri-map-pin-line"></i></div>
+            <div class="c-item-body"><strong>Office</strong><span>Suite V7, 66/3520 SPATIUM, Chittoor Road, Ernakulam, Kerala - 682035</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form reveal-r">
+        <div class="form-title">Request a Demo</div>
+        <div class="form-sub">Tell us what you want to build or explore.</div>
+        <form id="contactForm">
+          <div class="fields">
+            <div class="field"><label>Name</label><input id="name" type="text" placeholder="Your full name" required/></div>
+            <div class="field"><label>Organization</label><input id="organization" type="text" placeholder="College, institute, startup or company"/></div>
+            <div class="field"><label>Email</label><input id="email" type="email" placeholder="info@yourorg.com" required/></div>
+            <div class="field"><label>Message</label><textarea id="message" placeholder="Tell us whether you need a demo, a new platform, or a custom software solution." required></textarea></div>
+          </div>
+          <button class="btn btn-primary form-btn" type="submit"><i class="ri-send-plane-fill"></i>Send Request</button>
+          <span id="formStatus"></span>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <a href="#home"><img src="images/logoChro-display.jpeg" alt="Chromolog Technologies" style="height:32px;object-fit:contain"/></a>
+        <p class="footer-note">&copy; <span id="year"></span> Chromolog Pvt Ltd. All rights reserved.</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="#about">About</a>
+        <a href="#product">Product</a>
+        <a href="#services">Services</a>
+        <a href="#clients">Clients</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* loader */
+  var loader=document.getElementById('loader');
+  var body=document.body;
+  function hideLoader(){
+    loader.classList.add('out');
+    body.classList.remove('loading');
+  }
+  if(document.readyState==='complete'){setTimeout(hideLoader,300)}
+  else{
+    window.addEventListener('load',function(){setTimeout(hideLoader,300)},{once:true});
+    setTimeout(hideLoader,2000);
+  }
+
+  /* year */
+  var y=document.getElementById('year');
+  if(y) y.textContent=new Date().getFullYear();
+
+  /* scroll progress */
+  var progress=document.getElementById('progress');
+  function updateProgress(){
+    var h=document.documentElement;
+    var pct=(h.scrollTop||document.body.scrollTop)/(h.scrollHeight-h.clientHeight);
+    progress.style.transform='scaleX('+pct+')';
+  }
+  window.addEventListener('scroll',updateProgress,{passive:true});
+
+  /* hamburger */
+  var ham=document.getElementById('hamburger');
+  var drawer=document.getElementById('drawer');
+  ham&&ham.addEventListener('click',function(){
+    drawer.classList.toggle('open');
+    ham.innerHTML=drawer.classList.contains('open')?'<i class="ri-close-line"></i>':'<i class="ri-menu-line"></i>';
+  });
+  drawer&&drawer.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click',function(){
+      drawer.classList.remove('open');
+      ham.innerHTML='<i class="ri-menu-line"></i>';
+    });
+  });
+
+  /* reveal on scroll */
+  var items=document.querySelectorAll('.reveal,.reveal-l,.reveal-r');
+  if('IntersectionObserver' in window){
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}
+      });
+    },{threshold:0.12});
+    items.forEach(function(el){obs.observe(el);});
+  } else {
+    items.forEach(function(el){el.classList.add('in');});
+  }
+
+  /* form */
+  var form=document.getElementById('contactForm');
+  var status=document.getElementById('formStatus');
+  form&&form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var name=document.getElementById('name').value.trim();
+    status.textContent='Thank you'+(name?', '+name:'')+'. We\'ll be in touch soon!';
+    form.reset();
+  });
+
+  /* nav bg on scroll */
+  var topbar=document.getElementById('topbar');
+  window.addEventListener('scroll',function(){
+    topbar.style.background=window.scrollY>10?'rgba(4,6,15,0.95)':'rgba(4,6,15,0.7)';
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
